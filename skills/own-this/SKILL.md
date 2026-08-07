@@ -3,6 +3,7 @@ name: own-this
 description: Generate a standalone HTML study guide explaining a finished piece of work (bug fix, PR, feature) so the user can fully own it — context first, concept before details, guided code reading, interview-ready summary.
 argument-hint: "[what to explain — defaults to this session's main work] [lang: en|uk]"
 disable-model-invocation: true
+allowed-tools: Read Write Glob Grep Bash(git diff:*) Bash(git show:*) Bash(git log:*) Bash(git status:*) Bash(gh pr view:*) Bash(gh pr diff:*) Bash(gh issue view:*)
 ---
 
 # Own This — study-guide generator
@@ -15,8 +16,9 @@ head months later.
 
 - If `$ARGUMENTS` names a target (PR URL, issue number, commit range, file, or a
   topic like "the openclaw memory fix"), that is the subject.
-- If `$ARGUMENTS` contains `uk`, write the guide in Ukrainian (`<html lang="uk">`);
-  otherwise write in English.
+- Language: write in Ukrainian (`<html lang="uk">`) only if `$ARGUMENTS` carries an
+  explicit `lang: uk` or a standalone `uk` token. A `uk` inside a word (`duke`,
+  `uk-locale`) is part of the subject, not a language flag. Otherwise write in English.
 - With no arguments: the subject is the main piece of work completed in this
   session. If the session contains no substantive work, ask the user what to
   explain — do not invent a subject.
@@ -41,10 +43,19 @@ callers before writing anything.
   boxes), "Plain English:" translations, and the self-check questions.
 - Start from [template.html](template.html); keep it a single self-contained
   file (inline CSS, no external requests).
+- Read [example.html](example.html) first — a finished guide built to this
+  contract. Copy its shape, length and register; ignore its subject.
 - File name: `<short-topic>-study-guide.html` (kebab-case topic).
-- Location: the user's project root (e.g. next to earlier `*-study-guide.html`
-  files) — NEVER inside a contribution-repo checkout, where it could pollute a
-  branch or PR.
+- Location. The test is: could this file end up in a diff the user sends
+  upstream? If yes, it goes elsewhere. Resolve in order:
+  1. Beside existing `*-study-guide.html` files, if the user keeps any — that is
+     already their shelf.
+  2. Else, if the explained code lives in a repo the user contributes to rather
+     than owns (a fork, an upstream remote, an open PR), write to a
+     `study-guides/` directory beside that repo root — outside its working tree.
+  3. Else (the user's own project), the project root is fine.
+  Never `git add` the guide, and never write it into a checkout with staged or
+  in-flight PR work.
 - Default to the SIMPLE register defined in STYLE.md. If the user later says
   "simplify", rewrite the SAME file simpler — don't create a second file.
 

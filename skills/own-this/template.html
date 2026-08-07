@@ -57,6 +57,8 @@
   h2 {
     font-size: 1.4em; color: var(--heading); margin: 52px 0 4px;
     padding-top: 10px; line-height: 1.3;
+    /* clears the sticky Part nav when jumped to from an anchor */
+    scroll-margin-top: 60px;
   }
   h2 .num {
     display: inline-block; background: var(--accent); color: var(--panel);
@@ -130,9 +132,23 @@
   details.qa summary { cursor: pointer; font-weight: 600; padding: 10px 0; color: var(--heading); }
   details.qa[open] { border-left: 3px solid var(--accent); }
 
+  /* Hero metadata chips: repo · PR · status */
   .badge {
     display: inline-block; border-radius: 12px; padding: 2px 12px; font-size: 0.8em;
     border: 1px solid var(--border); background: var(--panel2); margin: 2px;
+  }
+
+  /* Printing a study guide must not swallow Parts 5 and 6 inside collapsed
+     <details>. The two rules cover both engines: older ones hide the children
+     directly, newer ones hide the ::details-content pseudo. */
+  @media print {
+    nav.parts { display: none; }
+    details.qa > *:not(summary) { display: block !important; }
+    details.qa::details-content { content-visibility: visible !important; }
+    details.qa summary { list-style: none; }
+    pre, .box, .card, details.qa, table { break-inside: avoid; }
+    h2 { break-after: avoid; }
+    body { font-size: 11pt; }
   }
 </style>
 </head>
@@ -141,7 +157,7 @@
 <header class="hero">
   <div class="wrap">
     <h1><!-- emoji + title: "Own it: the X fix" --></h1>
-    <div class="subtitle"><!-- links: PR · issue · repo --></div>
+    <div class="subtitle"><!-- links: PR · issue · repo, plus .badge chips for state --></div>
   </div>
 </header>
 
@@ -169,15 +185,17 @@
 <!-- h3 "What we HAVE" — the analogy (ONE for the whole doc) + mapping table.
      .box with THE load-bearing fact.
      h3 "What we WANT" — one paragraph.
-     h3 "What's IN THE WAY" — numbered story (ol) + .box.bad with user-visible damage. -->
+     h3 "What's IN THE WAY" — numbered story (ol) + .box.bad with user-visible damage,
+     or the cost of the gap when the work isn't a bug fix. -->
 
-<h2 id="p2"><span class="num">Part 2</span><!-- The idea of the fix --></h2>
-<p class="lead"><!-- In this part: the whole fix in one sentence, and why it's right. --></p>
-<!-- .box.good: fix in ONE sentence. ul: why right. table: the key distinction. -->
+<h2 id="p2"><span class="num">Part 2</span><!-- The idea of the change / of the fix --></h2>
+<p class="lead"><!-- In this part: the whole change in one sentence, and why it's right. --></p>
+<!-- .box.good: the change in ONE sentence. ul: why right. table: the key distinction. -->
 
 <h2 id="p3"><span class="num">Part 3</span><!-- The twist --></h2>
 <p class="lead"><!-- In this part: the subtlety that separates a naive fix from the real one. --></p>
-<!-- story → .box.bad "why that's poisonous" → .box.good "the rule". -->
+<!-- story → .box.bad "why that's poisonous" → .box.good "the rule".
+     If the work has no twist: one honest line saying so, then Part 4. -->
 
 <h2 id="p4"><span class="num">Part 4</span><!-- The details: reading the code --></h2>
 <p class="lead"><!-- In this part: the final shipped code, block by block. --></p>
@@ -195,7 +213,8 @@
      h3 "Likely challenges" — 3–5 details.qa with hard reviewer questions + strong answers.
      h3 "The 30-second version" — .box with one speakable paragraph. -->
 
-<div class="box good" style="margin-top:36px">
+<div class="box good" style="margin-top:36px"><!-- .box.good if it landed; .box.bad if
+     blocked or failing; plain .box if still open. Green must not lie. -->
   <span class="title">Status</span>
   <!-- one line: current state of the PR/work -->
 </div>
