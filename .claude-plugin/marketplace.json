@@ -1,0 +1,31 @@
+{
+  "name": "ccs",
+  "owner": {
+    "name": "Serhii Leniv",
+    "email": "leniv.tech@gmail.com"
+  },
+  "metadata": {
+    "description": "Personal Claude Code commands and skills"
+  },
+  "plugins": [
+    {
+      "name": "ccs",
+      "source": "./",
+      "description": "Spec-first work, KISS output, and session-to-memory learning for Claude Code. Composes with ECC rather than replacing it.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Serhii Leniv"
+      },
+      "homepage": "https://github.com/serhiileniv/skills",
+      "repository": "https://github.com/serhiileniv/skills",
+      "license": "MIT",
+      "category": "workflow",
+      "keywords": [
+        "spec-driven",
+        "writing",
+        "memory",
+        "workflow"
+      ]
+    }
+  ]
+}
