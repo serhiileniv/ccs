@@ -9,8 +9,8 @@ One command installs the whole setup on any machine:
 /plugin install ccs@ccs
 ```
 
-Three things make it distinctive, and nothing in ECC covers them:
-**spec-first work**, **KISS output**, and **break-it-down** learning.
+Three things it is for: **spec-first work**, **KISS output**, and learning that
+outlives the session.
 
 ## Non-goals
 
@@ -25,26 +25,12 @@ Three things make it distinctive, and nothing in ECC covers them:
 
 | | |
 |---|---|
-| Repo | `github.com/serhiileniv/skills` → renaming to `ccs`, MIT |
+| Repo | `github.com/serhiileniv/ccs`, MIT |
 | Contents | `skills/break-it-down/`, `skills/design/design.md` |
-| Install | manual `cp -R` into `~/.claude/skills/` |
+| Install | `/plugin install ccs@ccs`, or copy a single skill by hand |
 
 Spec-driven flow and KISS rules live only in `~/.claude/CLAUDE.md` — they apply to one
 machine, are invisible to anyone else, and are advice rather than a workflow.
-
-## What to adopt from ECC, and why
-
-ECC's value is not its 386 skills — it is four mechanics worth copying deliberately:
-
-| Mechanic | Why it works | How it lands here |
-|---|---|---|
-| **Two human gates** | Gate after plan, gate before commit. Everything between runs unattended. | `/ccs:spec` gates after the spec; v2 adds the commit gate |
-| **Size classifier** | Ceremony scales to blast radius — a typo does not get a research phase | `/ccs:spec` refuses trivial work instead of ceremonially speccing it |
-| **Compose, never reimplement** | `orch-*` are thin wrappers over `/plan`, `/code-review`, `tdd-workflow` | every command here delegates to ECC or to an existing skill |
-| **Artifact handoff** | `/ecc:plan` writes `.plan.md`; the next phase reads it instead of re-deriving | `docs/specs/<slug>.md` is that artifact, and it already survives shipping |
-
-Deliberately **not** adopted: instincts (a second learning store competing with
-`memory/`), 94 legacy command shims, rule packs (plugins cannot distribute rules).
 
 ## Scope
 
@@ -56,7 +42,7 @@ deferred — see Open questions 2.
 ### Namespace
 
 Plugin id `ccs@ccs` → commands resolve as `/ccs:<name>`, no collision with `/ecc:*`.
-`break-it-down` keeps its bare name (renamed from `own-this` before the first tag).
+`break-it-down` keeps its bare name — it is user-invoked directly, not part of a flow.
 
 ### Layout
 
@@ -86,8 +72,13 @@ KISS is also baked into `/ccs:spec` output, not only available on demand.
 
 1. **Spec before code** for anything touching more than one subsystem. Trivial fixes skip it.
 2. **The spec is updated in the same commit** when the design changes mid-implementation.
-3. **Commands compose.** Anything ECC does well is called, never reimplemented.
-4. **KISS applies to everything written** — docs, PR bodies, commit bodies, comments.
+3. **Commands compose.** A command that duplicates one that already exists is a bug;
+   call the existing one.
+4. **Ceremony scales to blast radius.** A typo does not get a spec, and a cross-cutting
+   change does not skip one.
+5. **Each command hands the next one an artifact**, so nothing is re-derived from scratch:
+   `docs/specs/<slug>.md` from `/ccs:spec`, a root cause from `/ccs:investigate`.
+6. **KISS applies to everything written** — docs, PR bodies, commit bodies, comments.
 
 ### Distribution
 
@@ -98,7 +89,7 @@ Version tags drive updates. No npm package; nothing here needs a runtime.
 
 - [ ] `claude plugin marketplace add serhiileniv/ccs` succeeds on a clean machine
 - [ ] `claude plugin install ccs@ccs` registers all five commands as `/ccs:*`
-- [ ] `break-it-down` resolves under its new name; no `own-this` references remain
+- [ ] `break-it-down` resolves under its bare name
 - [ ] `/ccs:spec` output matches the section shape above and stops for approval
 - [ ] `/ccs:learn` writes a memory file that loads on the next session
 - [ ] ECC stays installed and functional; no duplicated hooks
@@ -106,7 +97,7 @@ Version tags drive updates. No npm package; nothing here needs a runtime.
 
 ## Open questions
 
-1. ~~**Namespace.**~~ Settled: `ccs@ccs`, expanding to Cut To Essence. Locked once tagged.
+1. ~~**Namespace.**~~ Settled: `ccs@ccs`. Locked once tagged.
 2. **Does a `/ccs:feature` pipeline earn its place** in v2, or is it
    `/ecc:orch-add-feature` with a spec bolted on? Deferred until `spec`, `learn` and
    `kiss` have been used on real work.
