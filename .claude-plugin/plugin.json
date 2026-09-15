@@ -1,13 +1,13 @@
 {
   "name": "ccs",
-  "version": "0.1.0",
-  "description": "Spec-first work, KISS output, and session-to-memory learning for Claude Code. Composes with ECC rather than replacing it.",
+  "version": "0.2.0",
+  "description": "Spec-first work, KISS output, and session-to-memory learning for Claude Code.",
   "author": {
     "name": "Serhii Leniv",
     "url": "https://github.com/serhiileniv"
   },
-  "homepage": "https://github.com/serhiileniv/skills",
-  "repository": "https://github.com/serhiileniv/skills",
+  "homepage": "https://github.com/serhiileniv/ccs",
+  "repository": "https://github.com/serhiileniv/ccs",
   "license": "MIT",
   "keywords": [
     "spec-driven",
@@ -15,8 +15,5 @@
     "memory",
     "workflow",
     "kiss"
-  ],
-  "commands": [
-    "./commands/"
   ]
 }

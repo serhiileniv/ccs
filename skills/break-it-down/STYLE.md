@@ -13,7 +13,7 @@ BEFORE any story (Mayer's pre-training principle). Two pieces:
 - *Concept cards*: 3–6 cards, one per codebase/domain concept the reader must
   hold (term → one-line meaning → why it matters here). Only concepts actually
   used later.
-- *The system map*: a tiny CSS diagram (template has `.diagram`) showing where
+- *The system map*: a tiny CSS diagram (example.html has `.diagram`) showing where
   the touched code sits — what calls it, what it owns.
 
 **Part 1 — The intuition.** Three signposted blocks, in this order:
@@ -106,7 +106,7 @@ the guide exists to survive.
 worked example. Read it before writing — it settles questions of length, tone,
 and box use faster than this file can. Match its shape, not its subject.
 
-## Visual/typographic rules (already implemented in template.html)
+## Visual/typographic rules (already implemented in example.html)
 
 - Text measure ≈ 70ch; body ≥ 16px; line-height ≥ 1.6.
 - Light theme by default, dark via `prefers-color-scheme` — soft contrast in

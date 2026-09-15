@@ -1,9 +1,10 @@
 ---
-description: Write a design spec at docs/specs/<slug>.md, then stop for approval. Refuses trivial work.
+name: spec
+description: Write a design spec at docs/specs/<slug>.md, then stop for approval. Refuses trivial work. Use before a feature, redesign, or change touching more than one subsystem.
 argument-hint: "<slug or short description>"
 ---
 
-# /sl:spec
+# /ccs:spec
 
 Non-trivial work starts with a spec, not code. This writes it, shows it, and stops.
 
@@ -55,11 +56,7 @@ answer by reading the code.
 
 ## Step 3 — KISS the whole thing
 
-Before showing it: one line where one line does. State the fact, not the story behind
-it. No paragraph restating the line above. No narrating what was tried first.
-
-Two things earn their words and stay: **why** a non-obvious decision was made, and
-**what a check cannot do**.
+Before showing it, apply the `/ccs:kiss` rules to the draft.
 
 ## Step 4 — gate
 

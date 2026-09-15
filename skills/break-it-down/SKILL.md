@@ -41,10 +41,10 @@ callers before writing anything.
   order (know-first concepts → intuition → the idea → the twist → the code →
   glossary → defend-it), the signaling rules (lead lines, sticky Part nav,
   boxes), "Plain English:" translations, and the self-check questions.
-- Start from [template.html](template.html); keep it a single self-contained
-  file (inline CSS, no external requests).
-- Read [example.html](example.html) first — a finished guide built to this
-  contract. Copy its shape, length and register; ignore its subject.
+- Start from [example.html](example.html) — a finished guide built to this
+  contract. Keep its `<head>` and CSS verbatim, replace the body. Copy its shape,
+  length and register; ignore its subject. One self-contained file (inline CSS,
+  no external requests).
 - File name: `<short-topic>-study-guide.html` (kebab-case topic).
 - Location. The test is: could this file end up in a diff the user sends
   upstream? If yes, it goes elsewhere. Resolve in order:

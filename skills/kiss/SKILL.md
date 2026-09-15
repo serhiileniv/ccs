@@ -1,9 +1,11 @@
 ---
+name: kiss
 description: Edit a draft, PR body, commit message, doc, or comment down to what it needs to be.
 argument-hint: "[path | paste the text | empty = this session's last output]"
+disable-model-invocation: true
 ---
 
-# /sl:kiss
+# /ccs:kiss
 
 Cut anything that doesn't change what the reader does next.
 
@@ -40,17 +42,15 @@ Never cut these to save space. If the draft is missing them, that is a finding.
 ## Short ≠ dishonest
 
 Caveats, risks, unverified claims, and disagreement still get said — in one line each.
-Cutting a risk because it was inconvenient is not KISS, it is a lie of omission.
+Cutting a risk because it was inconvenient is a lie of omission.
 
 ## Preserve voice
 
-Make it sharper, not blander. Distinctive phrasing stays; generic polish is the failure
-mode, not the goal. The writer's opinions stay theirs — do not neutralise a strong claim
-into a balanced one.
+Sharper, not blander. Distinctive phrasing stays. Do not neutralise a strong claim into a
+balanced one.
 
 ## Output
 
-Return the edited text. Then, in at most three bullets, name what was cut and why —
-so the pattern is learnable, not just the result.
+Return the edited text. Then, in at most three bullets, name what was cut and why.
 
 If the draft is already tight, say so and change nothing.
