@@ -11,7 +11,7 @@
     {
       "name": "ccs",
       "source": "./",
-      "description": "Spec-first work, KISS output, and session-to-memory learning for Claude Code.",
+      "description": "Spec-first work, KISS output, and skills that learn from use.",
       "author": {
         "name": "Serhii Leniv"
       },
@@ -22,7 +22,6 @@
       "keywords": [
         "spec-driven",
         "writing",
-        "memory",
         "workflow"
       ]
     }

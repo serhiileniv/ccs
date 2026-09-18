@@ -2,7 +2,7 @@
 
 Personal [Agent Skills](https://agentskills.io) for [Claude Code](https://code.claude.com/docs/en/skills.md).
 
-Spec before code, KISS on everything written, and a session that leaves memory behind.
+Spec before code, KISS on everything written, and skills that learn from use.
 
 ## Skills
 
@@ -11,9 +11,8 @@ Spec before code, KISS on everything written, and a session that leaves memory b
 | `/ccs:spec <slug>` | Writes a design spec to `docs/specs/<slug>.md`, then stops for approval. Refuses trivial work. |
 | `/ccs:investigate <q>` | Read-only. How something works, or why it broke — with `file:line` evidence. |
 | `/ccs:fix <what>` | Failing test first, watch it fail, smallest fix, full suite green. |
-| `/ccs:kiss [path]` | Edits a draft, PR body, or commit message down to what it needs to be. User-invoked only. |
-| `/ccs:learn` | Saves what the session established as memory files. User-invoked only. |
-| [`break-it-down`](skills/break-it-down/SKILL.md) | Generates a standalone HTML study guide for finished work (PR, fix, feature) so you can defend it. Optional target and `lang: uk`. User-invoked only. |
+| `/ccs:learn` | Turns session lessons into edits to these skills; commits on approval. User-invoked only. |
+| [`/ccs:explain`](skills/explain/SKILL.md) | Generates a standalone HTML study guide for finished work (PR, fix, feature) so you can defend it. Optional target and `lang: uk`. User-invoked only. |
 
 ## Guides
 
@@ -34,10 +33,10 @@ Restart Claude Code.
 <summary>Or copy a single skill by hand</summary>
 
 ```bash
-cp -r skills/break-it-down ~/.claude/skills/break-it-down
+cp -r skills/explain ~/.claude/skills/explain
 ```
 
-Or into one project: `<repo>/.claude/skills/break-it-down`. Restart, then type `/break-it-down`.
+Or into one project: `<repo>/.claude/skills/explain`. Restart, then type `/explain`.
 
 ## Skill anatomy
 
@@ -45,7 +44,7 @@ A skill is a directory with a `SKILL.md` entry point (YAML frontmatter + instruc
 optional files loaded on demand:
 
 ```
-skills/break-it-down/
+skills/explain/
 ├── SKILL.md        # frontmatter + the steps the agent follows
 ├── STYLE.md        # the study-guide style contract
 └── example.html    # a finished guide; its <head> and CSS are the template

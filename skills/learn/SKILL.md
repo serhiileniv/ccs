@@ -1,17 +1,61 @@
 ---
 name: learn
-description: Distil the session into durable memory files, following Claude Code's memory rules.
-argument-hint: "[what to remember]"
+description: Turn this session's lessons into edits to the ccs skills themselves, then commit on approval.
+argument-hint: "[what to learn | empty = review this session]"
 disable-model-invocation: true
 ---
 
 # /ccs:learn
 
-Review this session and save what qualifies as memory, following the memory instructions
-in your system prompt: one fact per file, check for duplicates first, index in `MEMORY.md`.
-If `$ARGUMENTS` is given, save that.
+The skills get better with use. This turns what a session taught into edits to them.
+If `$ARGUMENTS` is given, that is the lesson.
 
-Write each `description` as the fact itself, not its topic — it decides recall.
+## Step 1 — find lessons
 
-Report what was written, one line each. If nothing qualified, say so; an empty run is
-better than filler.
+A lesson is one of:
+
+- a user correction a ccs skill should have prevented
+- a step that was skipped or misread because its wording allowed it
+- a rule that proved wrong
+
+Project facts and one-off preferences are not lessons — the harness memory holds those.
+Never write memory files, and never edit `~/.claude/CLAUDE.md`.
+
+## Step 2 — map each to one skill
+
+Each lesson goes to one skill in `skills/`. No skill fits → report it, don't edit, don't
+scaffold a new one.
+
+## Step 3 — locate the source
+
+`$CCS_REPO`, else `~/Projects/ccs`. It must be a git checkout whose `origin` is
+`serhiileniv/ccs`. Otherwise print the proposed diff and stop.
+
+Never edit `~/.claude/plugins/cache` — it is overwritten on update.
+
+## Step 4 — edit
+
+- Tree dirty → stop and say so.
+- Branch `learn/<slug>` off `main`.
+- Smallest change to that skill's `SKILL.md` or supporting file. Tighten an existing line
+  before adding one.
+
+## Step 5 — drift
+
+Every skill carries the same `## Writing` block. If any differs from the one in
+`skills/spec/SKILL.md`, make it match in the same diff.
+
+## Step 6 — gate
+
+Show the diff, then one line per lesson: *what happened → what changed*. Stop.
+
+On approval, commit on the branch. Never push or open a PR.
+
+Nothing qualified → say so and change nothing. An empty run beats filler.
+
+## Writing
+
+One line where one line does. Answer first. State the fact, not the story behind it — no
+narrating what was tried, no paragraph restating the line above.
+Two things always stay: **why** a non-obvious decision was made, and **what a check cannot do**.
+Caveats and risks still get said, one line each.

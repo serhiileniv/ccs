@@ -1,5 +1,7 @@
 # Spec: CCS — a distributable Claude Code plugin
 
+> `kiss`, `learn` and `break-it-down` are superseded by [kiss-and-learn](kiss-and-learn.md).
+
 ## Goal
 
 One command installs the whole setup on any machine:
@@ -104,6 +106,6 @@ Version tags drive updates. No npm package; nothing here needs a runtime.
    `kiss` have been used on real work.
 3. **Does `/ccs:fix` duplicate `/ecc:orch-fix-defect`?** Built anyway, deliberately: the
    lean path when the cause is known. Revisit if both end up used interchangeably.
-4. ~~**Is `kiss` a skill, a command, or both?**~~ Settled: a user-invoked skill. The
+4. ~~**Is `kiss` a skill, a command, or both?**~~ Superseded by [kiss-and-learn](kiss-and-learn.md). Was: a user-invoked skill. The
    always-on version lives in `~/.claude/CLAUDE.md`.
 5. ~~**Does `design.md` become a skill?**~~ Settled: a plain guide in `docs/guides/`.

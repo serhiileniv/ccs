@@ -56,7 +56,7 @@ answer by reading the code.
 
 ## Step 3 — KISS the whole thing
 
-Before showing it, apply the `/ccs:kiss` rules to the draft.
+Before showing it, cut the draft to the **Writing** rules at the end of this file.
 
 ## Step 4 — gate
 
@@ -72,3 +72,10 @@ The spec is the design record, not scaffolding:
 - implement against it
 - when the design changes mid-implementation, **update the spec in the same commit**
 - keep it after shipping — `docs/` stays the user-facing doc, `docs/specs/` is the record
+
+## Writing
+
+One line where one line does. Answer first. State the fact, not the story behind it — no
+narrating what was tried, no paragraph restating the line above.
+Two things always stay: **why** a non-obvious decision was made, and **what a check cannot do**.
+Caveats and risks still get said, one line each.

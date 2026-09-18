@@ -1,12 +1,12 @@
 ---
-name: break-it-down
+name: explain
 description: Generate a standalone HTML study guide explaining a finished piece of work (bug fix, PR, feature) so the user can fully own it — context first, concept before details, guided code reading, interview-ready summary.
 argument-hint: "[what to explain — defaults to this session's main work] [lang: en|uk]"
 disable-model-invocation: true
 allowed-tools: Read Write Glob Grep Bash(git diff:*) Bash(git show:*) Bash(git log:*) Bash(git status:*) Bash(gh pr view:*) Bash(gh pr diff:*) Bash(gh issue view:*)
 ---
 
-# Break It Down — study-guide generator
+# /ccs:explain — study-guide generator
 
 Produce a standalone HTML study guide that lets the user *own* a piece of work:
 explain it to a reviewer, defend it in an interview, or re-load it into their own

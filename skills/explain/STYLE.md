@@ -87,7 +87,17 @@ the guide exists to survive.
   Never use them as body decoration.
 - Tables for any either/or comparison; numbered lists for any sequence.
 
+## Writing
+
+One line where one line does. Answer first. State the fact, not the story behind it — no
+narrating what was tried, no paragraph restating the line above.
+Two things always stay: **why** a non-obvious decision was made, and **what a check cannot do**.
+Caveats and risks still get said, one line each.
+
 ## Simplicity rules (the default register)
+
+In a guide, **Writing** governs sentences, not structure: the Part order above still holds.
+
 
 - Short sentences. One idea per paragraph. Cut anything that doesn't change
   what the reader would say or do (coherence principle).

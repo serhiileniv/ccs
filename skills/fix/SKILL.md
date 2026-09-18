@@ -41,6 +41,13 @@ If the fix requires a design change, stop: that is a spec, not a bug. Run `/ccs:
 
 Report actual output. Never report a fix as done on an unrun suite.
 
+## Writing
+
+One line where one line does. Answer first. State the fact, not the story behind it — no
+narrating what was tried, no paragraph restating the line above.
+Two things always stay: **why** a non-obvious decision was made, and **what a check cannot do**.
+Caveats and risks still get said, one line each.
+
 ## Step 5 — commit
 
 ```

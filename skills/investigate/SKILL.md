@@ -1,6 +1,6 @@
 ---
 name: investigate
-description: Read-only. Explain how something works, or why it broke, with file:line evidence. Changes nothing. Use when asked how code works, why something fails, or before fixing a bug whose cause is unknown.
+description: Read-only. How something works, or why it broke, with file:line evidence. Changes nothing. Use when asked how code works, why something fails, or before fixing a bug whose cause is unknown.
 argument-hint: "<question or symptom>"
 ---
 
@@ -27,6 +27,13 @@ log reads). Anything that mutates state is out, even when it looks harmless.
    inference.
 4. **Narrow by halves.** `git log -S`, `git bisect`, disabling half the input, the last
    green commit.
+
+## Writing
+
+One line where one line does. Answer first. State the fact, not the story behind it — no
+narrating what was tried, no paragraph restating the line above.
+Two things always stay: **why** a non-obvious decision was made, and **what a check cannot do**.
+Caveats and risks still get said, one line each.
 
 ## Output
 

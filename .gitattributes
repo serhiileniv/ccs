@@ -1,10 +1,6 @@
-# Linguist ignores Markdown as prose by default, which left the two HTML files as
-# the only measurable thing and the language bar reading 100% HTML. This repo is
-# Markdown, so say so.
+# Linguist ignores Markdown as prose by default, which left the HTML sample as the only
+# measurable thing and the language bar reading 100% HTML. This repo is Markdown, so say so.
 *.md linguist-detectable=true
 
-# Source: the skill renders into this.
-skills/break-it-down/template.html linguist-detectable=true
-
 # Output: a rendered sample, not source.
-skills/break-it-down/example.html  linguist-documentation
+skills/explain/example.html  linguist-documentation
