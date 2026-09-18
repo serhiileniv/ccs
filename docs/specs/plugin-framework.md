@@ -1,6 +1,7 @@
 # Spec: CCS — a distributable Claude Code plugin
 
 > `kiss`, `learn` and `break-it-down` are superseded by [kiss-and-learn](kiss-and-learn.md).
+> `fix` is superseded by [implement](implement.md); `investigate` by [root-cause](root-cause.md).
 
 ## Goal
 
@@ -101,11 +102,11 @@ Version tags drive updates. No npm package; nothing here needs a runtime.
 ## Open questions
 
 1. ~~**Namespace.**~~ Settled: `ccs@ccs`. Locked once tagged.
-2. **Does a `/ccs:feature` pipeline earn its place** in v2, or is it
+2. ~~**Does a `/ccs:feature` pipeline earn its place** in v2, or is it
    `/ecc:orch-add-feature` with a spec bolted on? Deferred until `spec`, `learn` and
-   `kiss` have been used on real work.
-3. **Does `/ccs:fix` duplicate `/ecc:orch-fix-defect`?** Built anyway, deliberately: the
-   lean path when the cause is known. Revisit if both end up used interchangeably.
+   `kiss` have been used on real work.~~ Settled by [implement](implement.md): `spec → implement`.
+3. ~~**Does `/ccs:fix` duplicate `/ecc:orch-fix-defect`?** Built anyway, deliberately: the
+   lean path when the cause is known. Revisit if both end up used interchangeably.~~ Superseded by [implement](implement.md).
 4. ~~**Is `kiss` a skill, a command, or both?**~~ Superseded by [kiss-and-learn](kiss-and-learn.md). Was: a user-invoked skill. The
    always-on version lives in `~/.claude/CLAUDE.md`.
 5. ~~**Does `design.md` become a skill?**~~ Settled: a plain guide in `docs/guides/`.

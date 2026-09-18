@@ -78,7 +78,8 @@ the guide exists to survive.
 
 - Every Part heading is followed by a one-line `.lead` — "In this part: …" —
   saying what the reader will be able to do after it.
-- A sticky top nav lists the Parts (the advance organizer, always visible).
+- A sticky Part nav lists the Parts (the advance organizer, always visible): a sidebar
+  with reading progress on desktop, a top bar on phones.
 - Boxes are signals, not decoration: `.box.good` = the rule/the fix,
   `.box.bad` = the failure mode, `.box` = the load-bearing fact / status.
   The status footer follows the same rule — green only if the work actually

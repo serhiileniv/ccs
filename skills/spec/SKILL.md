@@ -69,7 +69,7 @@ again.
 
 The spec is the design record, not scaffolding:
 
-- implement against it
+- implement it with `/ccs:implement docs/specs/<slug>.md`
 - when the design changes mid-implementation, **update the spec in the same commit**
 - keep it after shipping — `docs/` stays the user-facing doc, `docs/specs/` is the record
 
@@ -79,3 +79,27 @@ One line where one line does. Answer first. State the fact, not the story behind
 narrating what was tried, no paragraph restating the line above.
 Two things always stay: **why** a non-obvious decision was made, and **what a check cannot do**.
 Caveats and risks still get said, one line each.
+
+Outcome: success = approved · partial = approved after `modify:` rounds · failed = abandoned.
+Write the report when the spec is approved or abandoned, not at the gate.
+
+## Report
+
+Last step, every run, whatever the outcome: write `.ccs/reports/<skill>/<YYYY-MM-DD>-<slug>.md`
+at the repo root, and add `.ccs/` to `.git/info/exclude` if missing. One line per field,
+no secrets, tokens or customer data. Print the path.
+
+```
+---
+skill: <skill>
+date: <YYYY-MM-DD>
+repo: <owner/name>
+target: <argument, one line>
+outcome: success | partial | failed
+learned: false
+---
+
+Used: <tools, CLIs, MCPs, files that did the work>
+Found: <the result, one or two lines>
+Friction: <what slowed or blocked it; a user correction; "none">
+```

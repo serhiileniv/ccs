@@ -1,18 +1,35 @@
-# CCS — Claude Code Skills
+# CCS — Claude Code Sensei
 
-Personal [Agent Skills](https://agentskills.io) for [Claude Code](https://code.claude.com/docs/en/skills.md).
+A workflow for [Claude Code](https://code.claude.com/docs/en/skills.md), built from
+[Agent Skills](https://agentskills.io): spec before code, test before fix, evidence before
+theory. Every run reports on itself, and the skills improve from those reports.
 
-Spec before code, KISS on everything written, and skills that learn from use.
+```
+spec ──► implement ◄── root-cause
+              │
+           explain          every run ──► .ccs/reports ──► learn ──► better skills
+```
 
 ## Skills
 
 | Skill | What it does |
 |---|---|
 | `/ccs:spec <slug>` | Writes a design spec to `docs/specs/<slug>.md`, then stops for approval. Refuses trivial work. |
-| `/ccs:investigate <q>` | Read-only. How something works, or why it broke — with `file:line` evidence. |
-| `/ccs:fix <what>` | Failing test first, watch it fail, smallest fix, full suite green. |
-| `/ccs:learn` | Turns session lessons into edits to these skills; commits on approval. User-invoked only. |
-| [`/ccs:explain`](skills/explain/SKILL.md) | Generates a standalone HTML study guide for finished work (PR, fix, feature) so you can defend it. Optional target and `lang: uk`. User-invoked only. |
+| `/ccs:root-cause <symptom>` | Read-only. Checks every source in reach (repo, CLIs, MCPs such as Sentry, Datadog, PostHog), then finds the root cause with evidence. |
+| `/ccs:implement <what>` | Test-first for bugs and features: failing test → smallest code → refactor → suite green. Takes a spec or a root cause. Never commits. |
+| [`/ccs:explain`](skills/explain/SKILL.md) | Standalone HTML study guide for finished work, so you can defend it. Optional target and `lang: uk`. User-invoked only. |
+| `/ccs:learn` | Turns session corrections and friction repeated across reports into edits to these skills; commits on approval. User-invoked only. |
+
+All skills write KISS: one line where one line does.
+
+## Reports
+
+Every run writes one file to `.ccs/reports/<skill>/<date>-<slug>.md` at the repo root:
+outcome (`success | partial | failed`), what it used, what it found, what got in the way.
+`.ccs/` goes into `.git/info/exclude`, so reports never show up in a diff.
+
+`/ccs:learn` proposes a skill edit only when **two or more** reports share the same
+friction (or one report plus your correction), then marks those reports `learned: <sha>`.
 
 ## Guides
 
@@ -38,6 +55,8 @@ cp -r skills/explain ~/.claude/skills/explain
 
 Or into one project: `<repo>/.claude/skills/explain`. Restart, then type `/explain`.
 
+</details>
+
 ## Skill anatomy
 
 A skill is a directory with a `SKILL.md` entry point (YAML frontmatter + instructions) plus
@@ -47,15 +66,15 @@ optional files loaded on demand:
 skills/explain/
 ├── SKILL.md        # frontmatter + the steps the agent follows
 ├── STYLE.md        # the study-guide style contract
-└── example.html    # a finished guide; its <head> and CSS are the template
+└── example.html    # a finished guide; its <head>, CSS, nav and script are the template
 ```
+
+Design records live in [`docs/specs/`](docs/specs/).
 
 ## Portability
 
 `argument-hint` and `disable-model-invocation` are Claude Code extensions, not part
 of the [Agent Skills](https://agentskills.io) spec. Uploading to claude.ai or packaging with
-`package_skill.py` fails with `Unexpected key(s) in SKILL.md frontmatter` — drop those lines
+`package_skill.py` fails with `Unexpected key(s) in SKILL.md frontmatter`: drop those lines
 first. The spec allows `name`, `description`, `license`, `compatibility`, `metadata` and
 `allowed-tools`.
-
-</details>

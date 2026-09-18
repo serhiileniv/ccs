@@ -5,13 +5,13 @@
     "email": "leniv.tech@gmail.com"
   },
   "metadata": {
-    "description": "Personal Claude Code commands and skills"
+    "description": "CCS — Claude Code Sensei"
   },
   "plugins": [
     {
       "name": "ccs",
       "source": "./",
-      "description": "Spec-first work, KISS output, and skills that learn from use.",
+      "description": "Claude Code Sensei: spec-first, test-first, root-cause debugging. Every run reports; the skills learn from the reports.",
       "author": {
         "name": "Serhii Leniv"
       },
@@ -21,7 +21,8 @@
       "category": "workflow",
       "keywords": [
         "spec-driven",
-        "writing",
+        "tdd",
+        "debugging",
         "workflow"
       ]
     }

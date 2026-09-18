@@ -5,137 +5,183 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Own it: the stale-index fix — Study Guide</title>
 <style>
-  /* Light theme default; dark via prefers-color-scheme. Soft contrast both ways. */
+  /* "Workbench": sidebar Part nav with progress, code-first. Light default; dark via
+     prefers-color-scheme. Code blocks stay dark in both themes. System fonts only:
+     the guide must make no external requests, so IBM Plex is used only if installed. */
   :root {
-    --bg: #faf9f7; --panel: #ffffff; --panel2: #f0eee9;
-    --text: #2a2f36; --dim: #6b7480; --accent: #2563c4;
-    --good: #1a7f37; --good-bg: #f0f9f1; --bad: #c03030; --bad-bg: #fdf2f2;
-    --warn: #9a6700; --code-bg: #f6f4ef; --border: #ddd8cf; --heading: #1a1f26;
-    --k: #a12b6e; --s: #1a7f37; --c: #8a919c; --f: #6f42c1; --code-text: #33383f;
+    --bg: #f4f5f7; --panel: #ffffff; --panel2: #eef0f4;
+    --text: #16181d; --dim: #5b6270; --heading: #16181d; --border: #e1e4ea;
+    --accent: #2346d1; --accent-bg: #eef1ff; --on-accent: #ffffff;
+    --good: #1d6b34; --good-bg: #ecf7ef; --good-border: #bfe3c9;
+    --bad: #b42318; --bad-bg: #fef3f2; --bad-border: #f7c9c4;
+    --warn: #8a5a00;
+    --code-bg: #16181d; --code-text: #e4e7ed; --code-border: #22262e;
+    --k: #8fa8ff; --s: #9bd9a8; --c: #7d8594; --f: #e3b5ff;
+    --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #14181d; --panel: #1b2129; --panel2: #232b35;
-      --text: #d3dae2; --dim: #8a96a3; --accent: #6cb0ff;
-      --good: #56d364; --good-bg: #17251b; --bad: #f08080; --bad-bg: #2a1b1d;
-      --warn: #e3b341; --code-bg: #10151a; --border: #323d49; --heading: #f0f4f8;
-      --k: #ff7b9d; --s: #a5d6a5; --c: #7d8896; --f: #d2a8ff; --code-text: #c9d6e3;
+      --bg: #0f1115; --panel: #171a21; --panel2: #1e222b;
+      --text: #dce0e8; --dim: #9aa3b2; --heading: #f1f3f7; --border: #2a2f3a;
+      --accent: #8fa8ff; --accent-bg: #1c2340; --on-accent: #0f1115;
+      --good: #6fd08c; --good-bg: #13241a; --good-border: #24452f;
+      --bad: #f28b7e; --bad-bg: #2a1716; --bad-border: #4a2522;
+      --warn: #e3b341;
+      --code-bg: #0a0c10; --code-border: #2a2f3a;
     }
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; padding: 0 0 90px;
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    background: var(--bg); color: var(--text);
-    font-size: 17px; line-height: 1.7;
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--sans); font-size: 17px; line-height: 1.65;
   }
+
+  /* Layout: sticky sidebar = the advance organizer, always visible */
+  .layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+  main { min-width: 0; padding-bottom: 90px; }
   /* ~70ch measure for comfortable reading (50–75ch research range) */
-  .wrap { max-width: 72ch; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 74ch; margin: 0 auto; padding: 0 40px; }
 
-  header.hero {
-    border-bottom: 1px solid var(--border);
-    background: var(--panel); padding: 44px 0 24px;
-  }
-  h1 { font-size: 1.75em; line-height: 1.25; margin: 0 0 10px; color: var(--heading); }
-  .subtitle { color: var(--dim); font-size: 0.95em; }
-  .subtitle a { color: var(--accent); text-decoration: none; }
-
-  /* Sticky Part nav = always-visible advance organizer */
   nav.parts {
-    position: sticky; top: 0; z-index: 10;
-    background: var(--panel); border-bottom: 1px solid var(--border);
-    padding: 8px 0; margin-bottom: 30px;
+    position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 10;
+    background: var(--panel); border-right: 1px solid var(--border);
+    padding: 28px 18px; display: flex; flex-direction: column; gap: 24px;
   }
-  nav.parts .wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  nav.parts .brand { display: flex; flex-direction: column; gap: 4px; padding: 0 10px; }
+  nav.parts .kicker { font-family: var(--mono); font-size: 12px; color: var(--dim); }
+  nav.parts .name { font-weight: 600; font-size: 15px; line-height: 1.35; color: var(--heading); }
+  nav.parts .progress { display: flex; flex-direction: column; gap: 6px; padding: 0 10px; }
+  nav.parts .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); }
+  nav.parts .bar { height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
+  nav.parts .bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+  nav.parts ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
   nav.parts a {
-    font-size: 0.8em; color: var(--dim); text-decoration: none;
-    border: 1px solid var(--border); border-radius: 14px; padding: 3px 12px;
-    background: var(--bg);
+    display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 0 10px;
+    border-radius: 6px; color: var(--dim); text-decoration: none; font-size: 14px;
   }
-  nav.parts a:hover { color: var(--accent); border-color: var(--accent); }
+  nav.parts a .n {
+    flex: none; width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--border); display: grid; place-items: center;
+    font-family: var(--mono); font-size: 11px;
+  }
+  nav.parts a:hover { background: var(--panel2); color: var(--text); }
+  nav.parts a.done .n { background: var(--accent-bg); color: var(--accent); border-color: transparent; }
+  nav.parts a.active { background: var(--accent-bg); color: var(--heading); font-weight: 600; }
+  nav.parts a.active .n { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+  nav.parts a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 48px 0 8px; }
+  h1 { font-size: 2.3em; line-height: 1.15; letter-spacing: -0.015em; margin: 12px 0; color: var(--heading); font-weight: 600; }
+  .subtitle { color: var(--dim); font-size: 0.98em; }
+  .subtitle a { color: var(--accent); text-decoration: none; }
+  /* Hero metadata chips: repo · PR · status */
+  .badge {
+    display: inline-block; border-radius: 4px; padding: 3px 10px; margin: 0 4px 4px 0;
+    font-family: var(--mono); font-size: 0.72em; background: var(--panel);
+    border: 1px solid var(--border); color: var(--text);
+  }
 
   h2 {
-    font-size: 1.4em; color: var(--heading); margin: 52px 0 4px;
-    padding-top: 10px; line-height: 1.3;
-    /* clears the sticky Part nav when jumped to from an anchor */
-    scroll-margin-top: 60px;
+    font-size: 1.5em; color: var(--heading); margin: 64px 0 2px; line-height: 1.3;
+    font-weight: 600; scroll-margin-top: 24px;
   }
+  /* The Part label sits above the heading, like a file path above code */
   h2 .num {
-    display: inline-block; background: var(--accent); color: var(--panel);
-    border-radius: 6px; font-size: 0.7em; padding: 2px 10px;
-    vertical-align: middle; margin-right: 10px;
+    display: block; margin-bottom: 4px; font-family: var(--mono); font-size: 0.5em;
+    font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
   }
   /* Signaling: one line under every Part heading saying what you'll get */
-  .lead { color: var(--dim); font-style: italic; margin: 2px 0 18px; }
-  h3 { font-size: 1.1em; color: var(--accent); margin: 30px 0 8px; }
+  .lead { color: var(--dim); margin: 2px 0 20px; }
+  h3 { font-size: 1.1em; color: var(--heading); margin: 32px 0 8px; font-weight: 600; }
   p { margin: 13px 0; }
 
   code {
-    font-family: Consolas, "Cascadia Code", monospace; font-size: 0.87em;
-    background: var(--code-bg); border: 1px solid var(--border);
-    border-radius: 4px; padding: 1px 6px; color: var(--code-text);
+    font-family: var(--mono); font-size: 0.86em; background: var(--panel2);
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; color: var(--text);
   }
   pre {
-    background: var(--code-bg); border: 1px solid var(--border);
-    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
-    font-size: 0.84em; line-height: 1.6;
+    background: var(--code-bg); border: 1px solid var(--code-border);
+    border-radius: 8px; padding: 18px 20px; overflow-x: auto;
+    font-size: 0.84em; line-height: 1.65; margin: 20px 0;
   }
-  pre code { background: none; border: none; padding: 0; color: var(--code-text); }
+  pre code { background: none; border: none; padding: 0; color: var(--code-text); font-size: 1em; }
   .k { color: var(--k); } .s { color: var(--s); }
   .c { color: var(--c); font-style: italic; } .f { color: var(--f); }
-  .plain { margin: -4px 0 20px; }
-  .plain strong { color: var(--good); }
+  /* "Plain English:" docks under its code block as one unit */
+  .plain {
+    margin: -20px 0 24px; padding: 12px 20px; font-size: 0.94em;
+    background: var(--accent-bg); border: 1px solid var(--code-border); border-top: 0;
+    border-radius: 0 0 8px 8px;
+  }
+  pre:has(+ .plain) { border-radius: 8px 8px 0 0; margin-bottom: 20px; }
+  .plain strong { color: var(--accent); }
 
   .box {
-    border: 1px solid var(--border); border-left: 4px solid var(--accent);
-    background: var(--panel); border-radius: 8px; padding: 14px 18px; margin: 18px 0;
+    border: 1px solid var(--border); background: var(--panel);
+    border-radius: 8px; padding: 16px 20px; margin: 20px 0;
   }
-  .box.good { border-left-color: var(--good); background: var(--good-bg); }
-  .box.bad { border-left-color: var(--bad); background: var(--bad-bg); }
-  .box .title { font-weight: 600; display: block; margin-bottom: 6px; color: var(--heading); }
+  .box.good { background: var(--good-bg); border-color: var(--good-border); }
+  .box.bad { background: var(--bad-bg); border-color: var(--bad-border); }
+  .box .title {
+    display: block; margin-bottom: 6px; font-size: 0.74em; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent);
+  }
   .box.good .title { color: var(--good); }
   .box.bad .title { color: var(--bad); }
+  .box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
 
-  table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 0.92em; }
-  th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; vertical-align: top; }
-  th { background: var(--panel2); color: var(--heading); }
-  td { background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.92em; background: var(--panel); border-radius: 8px; overflow: hidden; }
+  th, td { border: 1px solid var(--border); padding: 9px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--panel2); color: var(--heading); font-weight: 600; }
 
   /* Part 0: concept cards (pre-training) */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 18px 0; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 20px 0; }
   .card {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
-    padding: 12px 15px; font-size: 0.92em;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 18px; font-size: 0.92em; line-height: 1.55;
   }
-  .card .term { font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
-  .card .why { color: var(--dim); font-size: 0.9em; display: block; margin-top: 6px; }
+  .card .term { display: block; margin-bottom: 6px; font-family: var(--mono); font-size: 0.9em; font-weight: 500; color: var(--accent); }
+  .card .why { display: block; margin-top: 8px; color: var(--dim); font-size: 0.9em; }
 
   /* Part 0: system map (dual coding) */
   .diagram {
     display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
-    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
-    padding: 16px; margin: 18px 0; font-size: 0.88em;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 18px; margin: 20px 0; font-size: 0.86em;
   }
   .diagram .nodebox {
-    background: var(--panel2); border: 1px solid var(--border); border-radius: 8px;
-    padding: 8px 14px; text-align: center;
+    background: var(--panel2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 14px; text-align: center; font-family: var(--mono);
   }
-  .diagram .nodebox.hot { border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent); }
-  .diagram .arr { color: var(--dim); font-weight: 700; }
-  .diagram .lbl { display: block; font-size: 0.8em; color: var(--dim); }
+  .diagram .nodebox.hot { background: var(--accent-bg); border-color: var(--accent); color: var(--heading); }
+  .diagram .arr { color: var(--dim); font-weight: 600; }
+  .diagram .lbl { display: block; font-family: var(--sans); font-size: 0.82em; color: var(--dim); }
 
   /* Collapsibles: glossary + self-check answers */
   details.qa {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
-    padding: 4px 18px; margin: 10px 0;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 2px 18px; margin: 10px 0;
   }
-  details.qa summary { cursor: pointer; font-weight: 600; padding: 10px 0; color: var(--heading); }
-  details.qa[open] { border-left: 3px solid var(--accent); }
+  details.qa summary { cursor: pointer; font-weight: 600; padding: 12px 0; color: var(--heading); }
+  details.qa[open] { border-color: var(--accent); padding-bottom: 14px; }
 
-  /* Hero metadata chips: repo · PR · status */
-  .badge {
-    display: inline-block; border-radius: 12px; padding: 2px 12px; font-size: 0.8em;
-    border: 1px solid var(--border); background: var(--panel2); margin: 2px;
+  /* Phones and narrow windows: the sidebar becomes a sticky top bar, progress underneath */
+  @media (max-width: 960px) {
+    .layout { display: block; }
+    nav.parts {
+      height: auto; flex-direction: row; align-items: center; gap: 0;
+      padding: 8px 12px 10px; border-right: 0; border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    nav.parts .brand, nav.parts .progress-label { display: none; }
+    nav.parts .progress { position: absolute; left: 0; right: 0; bottom: 0; padding: 0; }
+    nav.parts .bar { border-radius: 0; height: 3px; }
+    nav.parts ol { flex-direction: row; gap: 4px; }
+    nav.parts a { white-space: nowrap; min-height: 44px; padding: 0 10px 0 6px; }
+    .wrap { padding: 0 16px; }
+    h1 { font-size: 1.8em; }
+    h2 { scroll-margin-top: 72px; }
   }
 
   /* Printing a study guide must not swallow Parts 5 and 6 inside collapsed
@@ -143,41 +189,53 @@
      directly, newer ones hide the ::details-content pseudo. */
   @media print {
     nav.parts { display: none; }
+    .layout { display: block; }
     details.qa > *:not(summary) { display: block !important; }
     details.qa::details-content { content-visibility: visible !important; }
     details.qa summary { list-style: none; }
     pre, .box, .card, details.qa, table { break-inside: avoid; }
     h2 { break-after: avoid; }
-    body { font-size: 11pt; }
+    body { font-size: 11pt; background: #fff; }
   }
 </style>
 </head>
 <body>
+<div class="layout">
+
+<nav class="parts" aria-label="Parts">
+  <div class="brand">
+    <span class="kicker">study guide</span>
+    <span class="name">Own it: the stale-index fix</span>
+  </div>
+  <div class="progress">
+    <div class="progress-label"><span>Progress</span><span class="count">7 parts</span></div>
+    <div class="bar"><span></span></div>
+  </div>
+  <ol>
+    <li><a href="#p0"><span class="n">0</span>Know first</a></li>
+    <li><a href="#p1"><span class="n">1</span>Intuition</a></li>
+    <li><a href="#p2"><span class="n">2</span>The idea</a></li>
+    <li><a href="#p3"><span class="n">3</span>The twist</a></li>
+    <li><a href="#p4"><span class="n">4</span>The code</a></li>
+    <li><a href="#p5"><span class="n">5</span>Glossary</a></li>
+    <li><a href="#p6"><span class="n">6</span>Defend it</a></li>
+  </ol>
+</nav>
+
+<main>
 
 <header class="hero">
   <div class="wrap">
-    <h1>🗂️ Own it: the stale-index fix</h1>
     <div class="subtitle">
       <span class="badge">worked example</span>
       <span class="badge">notekeeper</span>
       <span class="badge">PR #212</span>
-      <div>The reference rendering for the <code>explain</code> format. The project
-      is invented; the shape, length and register are what to copy.</div>
     </div>
+    <h1>Own it: the stale-index fix</h1>
+    <div class="subtitle">The reference rendering for the <code>explain</code> format. The project
+    is invented; the shape, length and register are what to copy.</div>
   </div>
 </header>
-
-<nav class="parts">
-  <div class="wrap">
-    <a href="#p0">0 · Know first</a>
-    <a href="#p1">1 · Intuition</a>
-    <a href="#p2">2 · The idea</a>
-    <a href="#p3">3 · The twist</a>
-    <a href="#p4">4 · The code</a>
-    <a href="#p5">5 · Glossary</a>
-    <a href="#p6">6 · Defend it</a>
-  </div>
-</nav>
 
 <div class="wrap">
 
@@ -500,5 +558,32 @@ index honest; a lazy check only makes it quiet.</details>
 </div>
 
 </div>
+</main>
+</div>
+<script>
+  // Scroll-spy: marks the Part being read, ticks the ones above it, fills the bar.
+  // The guide works without it; this only adds the "where am I" signal.
+  (function () {
+    var links = [].slice.call(document.querySelectorAll('nav.parts ol a'));
+    var heads = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    var bar = document.querySelector('nav.parts .bar span');
+    var count = document.querySelector('nav.parts .count');
+    function update() {
+      var i = -1;
+      heads.forEach(function (h, j) { if (h && h.getBoundingClientRect().top < 140) i = j; });
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) i = heads.length - 1;
+      links.forEach(function (a, j) {
+        a.classList.toggle('active', j === i);
+        a.classList.toggle('done', j < i);
+        if (j === i) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+      var n = Math.max(i + 1, 0);
+      bar.style.width = (n / heads.length * 100) + '%';
+      count.textContent = n + ' of ' + heads.length;
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+</script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "name": "ccs",
-  "version": "0.2.0",
-  "description": "Spec-first work, KISS output, and skills that learn from use.",
+  "version": "0.3.0",
+  "description": "Claude Code Sensei: spec-first, test-first, root-cause debugging. Every run reports; the skills learn from the reports.",
   "author": {
     "name": "Serhii Leniv",
     "url": "https://github.com/serhiileniv"
@@ -11,7 +11,8 @@
   "license": "MIT",
   "keywords": [
     "spec-driven",
-    "writing",
+    "tdd",
+    "debugging",
     "workflow"
   ]
 }
