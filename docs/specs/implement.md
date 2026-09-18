@@ -10,7 +10,7 @@ a spec's acceptance criteria, or a root cause from `root-cause`.
 
 - **Test-framework setup.** A repo without tests needs a dependency choice; that is a spec.
 - **Coverage targets, mutation testing.** They measure the tests, not the behaviour.
-- **Hooks enforcing test-first.** The plugin has no hooks by design (`plugin-framework.md`).
+- **Hooks enforcing test-first.** The plugin has no hooks by design.
 - **Keeping `/ccs:fix` as an alias.** Two commands for one path is the duplication invariant 3 forbids.
 
 ## Current state
@@ -21,7 +21,6 @@ a spec's acceptance criteria, or a root cause from `root-cause`.
 | `skills/spec/SKILL.md` "After approval" | "implement against it" (no method given). |
 | `skills/investigate/SKILL.md:14,51` | Hands off to `/ccs:fix`. |
 | `README.md:13` | Lists `/ccs:fix`. |
-| `docs/specs/plugin-framework.md` | `fix` row; Open questions 2 (`/ccs:feature` deferred) and 3 (`fix` vs `ecc:orch-fix-defect`). |
 | Feature TDD | None in `skills/`, README or specs. |
 
 ## Proposed design
@@ -61,7 +60,6 @@ Ends with the shared `## Writing` block, byte-identical to `skills/spec/SKILL.md
 | `skills/investigate/SKILL.md:14,51` | `/ccs:fix` → `/ccs:implement` |
 | `README.md` | `fix` row → `/ccs:implement <what>`: "Test-first for bugs and features: failing test → smallest code → refactor → suite green." |
 | `plugin.json` | `0.2.0` → `0.3.0` (removing a command is breaking) |
-| `docs/specs/plugin-framework.md` | Header note: `fix` superseded by [implement](implement.md). Open questions 2 and 3 marked settled by it. |
 
 ## Acceptance criteria
 

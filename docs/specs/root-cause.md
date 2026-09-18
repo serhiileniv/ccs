@@ -109,7 +109,6 @@ Ends with the shared `## Writing` and `## Report` blocks.
 | `skills/implement/SKILL.md` step 0 | `/ccs:investigate` → `/ccs:root-cause` |
 | `docs/specs/implement.md` | Same rename |
 | `README.md` | `investigate` row → `/ccs:root-cause <symptom>`: "Read-only. Checks every source in reach (repo, CLIs, MCPs), then finds the root cause with evidence." |
-| `docs/specs/plugin-framework.md` | Header note: `investigate` superseded by [root-cause](root-cause.md) |
 | `plugin.json` | Stays `0.3.0`: unreleased, already bumped for `implement` |
 
 ## Acceptance criteria
