@@ -12,6 +12,10 @@ spec ──► implement ◄── root-cause
            explain          every run ──► .ccs/reports ──► learn ──► better skills
 ```
 
+![A real run: /ccs:root-cause finds the commit that turned "10% off" into "charge 10%", then /ccs:implement writes the failing tests, fixes one line and runs the suite green](assets/demo.gif)
+
+<sub>A real run on a toy repo, 1.5× speed.</sub>
+
 ## Skills
 
 | Skill | What it does |
