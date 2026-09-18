@@ -1,6 +1,6 @@
 <p align="center"><img src="assets/sensei.svg" width="168" alt="CCS sensei: pixel-art old master with a long white beard, clay headband and a spec scroll"></p>
 
-# CCS — Claude Code Sensei
+# Claude Code Sensei
 
 A workflow for [Claude Code](https://code.claude.com/docs/en/skills.md), built from
 [Agent Skills](https://agentskills.io): spec before code, test before fix, evidence before
