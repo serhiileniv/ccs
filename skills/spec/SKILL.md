@@ -1,9 +1,10 @@
 ---
-description: Write a design spec at docs/specs/<slug>.md, then stop for approval. Refuses trivial work.
+name: spec
+description: Write a design spec at docs/specs/<slug>.md, then stop for approval. Refuses trivial work. Use before a feature, redesign, or change touching more than one subsystem.
 argument-hint: "<slug or short description>"
 ---
 
-# /sl:spec
+# /ccs:spec
 
 Non-trivial work starts with a spec, not code. This writes it, shows it, and stops.
 
@@ -55,11 +56,7 @@ answer by reading the code.
 
 ## Step 3 — KISS the whole thing
 
-Before showing it: one line where one line does. State the fact, not the story behind
-it. No paragraph restating the line above. No narrating what was tried first.
-
-Two things earn their words and stay: **why** a non-obvious decision was made, and
-**what a check cannot do**.
+Before showing it, cut the draft to the **Writing** rules at the end of this file.
 
 ## Step 4 — gate
 
@@ -72,6 +69,37 @@ again.
 
 The spec is the design record, not scaffolding:
 
-- implement against it
+- implement it with `/ccs:implement docs/specs/<slug>.md`
 - when the design changes mid-implementation, **update the spec in the same commit**
 - keep it after shipping — `docs/` stays the user-facing doc, `docs/specs/` is the record
+
+## Writing
+
+One line where one line does. Answer first. State the fact, not the story behind it — no
+narrating what was tried, no paragraph restating the line above.
+Two things always stay: **why** a non-obvious decision was made, and **what a check cannot do**.
+Caveats and risks still get said, one line each.
+
+Outcome: success = approved · partial = approved after `modify:` rounds · failed = abandoned.
+Write the report when the spec is approved or abandoned, not at the gate.
+
+## Report
+
+Last step, every run, whatever the outcome: write `.ccs/reports/<skill>/<YYYY-MM-DD>-<slug>.md`
+at the repo root, and add `.ccs/` to `.git/info/exclude` if missing. One line per field,
+no secrets, tokens or customer data. Print the path.
+
+```
+---
+skill: <skill>
+date: <YYYY-MM-DD>
+repo: <owner/name>
+target: <argument, one line>
+outcome: success | partial | failed
+learned: false
+---
+
+Used: <tools, CLIs, MCPs, files that did the work>
+Found: <the result, one or two lines>
+Friction: <what slowed or blocked it; a user correction; "none">
+```

@@ -20,8 +20,8 @@ below with exact values measured from those sites.
 
 ## 1. Brand first — Serhii's tokens override Solt's
 
-- Before anything else, read `~/.claude/skills/brand/SKILL.md`
-  (mirror: `~/Projects/personal brand/brand.md`). It wins every conflict.
+- The tokens below come from `~/Projects/personal brand/brand.md`. If that file
+  is present, read it first; it wins every conflict.
 - Font mapping (same roles, Serhii's faces):
   - Solt's display face (Inter Display 600 / Satoshi 700 / Poppins 600)
     → Montserrat 600–700. Headings only, never body.

@@ -5,25 +5,24 @@
     "email": "leniv.tech@gmail.com"
   },
   "metadata": {
-    "description": "Personal Claude Code commands and skills"
+    "description": "CCS — Claude Code Sensei"
   },
   "plugins": [
     {
       "name": "ccs",
       "source": "./",
-      "description": "Spec-first work, KISS output, and session-to-memory learning for Claude Code. Composes with ECC rather than replacing it.",
-      "version": "0.1.0",
+      "description": "Claude Code Sensei: spec-first, test-first, root-cause debugging. Every run reports; the skills learn from the reports.",
       "author": {
         "name": "Serhii Leniv"
       },
-      "homepage": "https://github.com/serhiileniv/skills",
-      "repository": "https://github.com/serhiileniv/skills",
+      "homepage": "https://github.com/serhiileniv/ccs",
+      "repository": "https://github.com/serhiileniv/ccs",
       "license": "MIT",
       "category": "workflow",
       "keywords": [
         "spec-driven",
-        "writing",
-        "memory",
+        "tdd",
+        "debugging",
         "workflow"
       ]
     }

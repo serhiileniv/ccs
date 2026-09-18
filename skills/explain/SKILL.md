@@ -1,12 +1,12 @@
 ---
-name: break-it-down
+name: explain
 description: Generate a standalone HTML study guide explaining a finished piece of work (bug fix, PR, feature) so the user can fully own it — context first, concept before details, guided code reading, interview-ready summary.
 argument-hint: "[what to explain — defaults to this session's main work] [lang: en|uk]"
 disable-model-invocation: true
 allowed-tools: Read Write Glob Grep Bash(git diff:*) Bash(git show:*) Bash(git log:*) Bash(git status:*) Bash(gh pr view:*) Bash(gh pr diff:*) Bash(gh issue view:*)
 ---
 
-# Break It Down — study-guide generator
+# /ccs:explain — study-guide generator
 
 Produce a standalone HTML study guide that lets the user *own* a piece of work:
 explain it to a reviewer, defend it in an interview, or re-load it into their own
@@ -41,10 +41,11 @@ callers before writing anything.
   order (know-first concepts → intuition → the idea → the twist → the code →
   glossary → defend-it), the signaling rules (lead lines, sticky Part nav,
   boxes), "Plain English:" translations, and the self-check questions.
-- Start from [template.html](template.html); keep it a single self-contained
-  file (inline CSS, no external requests).
-- Read [example.html](example.html) first — a finished guide built to this
-  contract. Copy its shape, length and register; ignore its subject.
+- Start from [example.html](example.html) — a finished guide built to this
+  contract. Keep its `<head>`, CSS, Part nav and closing `<script>` verbatim; put
+  the guide's title in the nav's `.name` and replace the hero and the content inside
+  `.wrap`. Copy its shape, length and register; ignore its subject. One
+  self-contained file (inline CSS and JS, no external requests).
 - File name: `<short-topic>-study-guide.html` (kebab-case topic).
 - Location. The test is: could this file end up in a diff the user sends
   upstream? If yes, it goes elsewhere. Resolve in order:
@@ -63,4 +64,27 @@ callers before writing anything.
 
 After writing, tell the user the file path and give a one-paragraph map of the
 guide's sections. Offer to simplify further or produce the other language on
-request.
+request. Then write the report (below).
+
+Outcome: success = guide written · partial = written, then rewritten on request · failed = not written.
+
+## Report
+
+Last step, every run, whatever the outcome: write `.ccs/reports/<skill>/<YYYY-MM-DD>-<slug>.md`
+at the repo root, and add `.ccs/` to `.git/info/exclude` if missing. One line per field,
+no secrets, tokens or customer data. Print the path.
+
+```
+---
+skill: <skill>
+date: <YYYY-MM-DD>
+repo: <owner/name>
+target: <argument, one line>
+outcome: success | partial | failed
+learned: false
+---
+
+Used: <tools, CLIs, MCPs, files that did the work>
+Found: <the result, one or two lines>
+Friction: <what slowed or blocked it; a user correction; "none">
+```

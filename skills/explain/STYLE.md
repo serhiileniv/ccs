@@ -13,7 +13,7 @@ BEFORE any story (Mayer's pre-training principle). Two pieces:
 - *Concept cards*: 3–6 cards, one per codebase/domain concept the reader must
   hold (term → one-line meaning → why it matters here). Only concepts actually
   used later.
-- *The system map*: a tiny CSS diagram (template has `.diagram`) showing where
+- *The system map*: a tiny CSS diagram (example.html has `.diagram`) showing where
   the touched code sits — what calls it, what it owns.
 
 **Part 1 — The intuition.** Three signposted blocks, in this order:
@@ -78,7 +78,8 @@ the guide exists to survive.
 
 - Every Part heading is followed by a one-line `.lead` — "In this part: …" —
   saying what the reader will be able to do after it.
-- A sticky top nav lists the Parts (the advance organizer, always visible).
+- A sticky Part nav lists the Parts (the advance organizer, always visible): a sidebar
+  with reading progress on desktop, a top bar on phones.
 - Boxes are signals, not decoration: `.box.good` = the rule/the fix,
   `.box.bad` = the failure mode, `.box` = the load-bearing fact / status.
   The status footer follows the same rule — green only if the work actually
@@ -87,7 +88,17 @@ the guide exists to survive.
   Never use them as body decoration.
 - Tables for any either/or comparison; numbered lists for any sequence.
 
+## Writing
+
+One line where one line does. Answer first. State the fact, not the story behind it — no
+narrating what was tried, no paragraph restating the line above.
+Two things always stay: **why** a non-obvious decision was made, and **what a check cannot do**.
+Caveats and risks still get said, one line each.
+
 ## Simplicity rules (the default register)
+
+In a guide, **Writing** governs sentences, not structure: the Part order above still holds.
+
 
 - Short sentences. One idea per paragraph. Cut anything that doesn't change
   what the reader would say or do (coherence principle).
@@ -106,7 +117,7 @@ the guide exists to survive.
 worked example. Read it before writing — it settles questions of length, tone,
 and box use faster than this file can. Match its shape, not its subject.
 
-## Visual/typographic rules (already implemented in template.html)
+## Visual/typographic rules (already implemented in example.html)
 
 - Text measure ≈ 70ch; body ≥ 16px; line-height ≥ 1.6.
 - Light theme by default, dark via `prefers-color-scheme` — soft contrast in
