@@ -18,6 +18,9 @@ Code is done when a test that used to fail now passes, and the suite is green.
 
 ## Step 1 — test list
 
+Read the code the change touches and trace the real flow before listing anything. The
+smallest change in the wrong place is a second bug.
+
 - From a spec: one line per acceptance criterion.
 - From a bug: one line, the reproduction.
 - Otherwise: one line per behaviour in the request.
@@ -28,19 +31,36 @@ Show the list before writing code.
 ## Step 2 — red
 
 One test, where the repo already keeps its tests, in the style already used there. It
-asserts the behaviour, not the current output.
+asserts behaviour through the public interface, not internals or the current output.
 
 Run it. **Watch it fail for the reason you stated.** A compile error or a setup mistake
 is not red. A test you never saw fail is not evidence.
 
 ## Step 3 — green
 
-Smallest code that makes that test pass. No code for tests not yet written. No
-refactors, cleanups or renames mixed in.
+Smallest code that makes that test pass. Stop at the first rung that holds:
+not needed → skip · already in the repo → reuse · stdlib, platform or an installed
+dependency → use it · one line → one line · else the minimum that works.
+Two options the same size → the one correct on edge cases.
+
+- A bug: grep every caller of what you touch; fix it once, where they all route through.
+- A new dependency is a design change → step 5.
+- Never cut: validation at trust boundaries, data-loss handling, security, accessibility,
+  anything requested.
+- A shortcut with a known ceiling gets a one-line comment: the ceiling, and when to upgrade.
+- No code for tests not yet written. No refactors, cleanups or renames mixed in.
 
 ## Step 4 — refactor
 
-Only on green. Run the full suite after.
+Only on green. Aim it at the next reader:
+
+- Follow the conventions of the files you touch: naming, layering, error handling.
+- No abstraction nobody asked for: no one-implementation interface, no config for a
+  constant, no scaffolding for later.
+- Remove duplication you introduced. Boring over clever. Fewest files.
+- Delete what you made dead: unused code, imports, commented-out lines.
+
+Run the full suite after.
 
 ## Step 5 — next
 
@@ -55,7 +75,7 @@ A design change mid-way → stop. Update the spec, or run `/ccs:spec` if there i
 - the repo's typecheck and lint gates pass, if it has them
 
 Report each list item → test name or `manual`, then the actual suite output. For a bug,
-add the root cause in one line. Never report done on an unrun suite.
+add the root cause in one line. What you skipped, one line each: `skipped: X, add when Y`.
 
 Do not commit. The user commits. Then write the report (below).
 

@@ -40,12 +40,12 @@ argument-hint: "<bug | behaviour | docs/specs/<slug>.md>"
 | # | Step | Rule |
 |---|---|---|
 | 0 | Route | Non-trivial with no spec → `/ccs:spec`. Bug with unknown cause → `/ccs:root-cause`, then take its root cause. No test runner in repo → stop, say so. Design change mid-bug → stop, `/ccs:spec`. |
-| 1 | Test list | Spec → one line per acceptance criterion. Bug → one line: the reproduction. Otherwise from the request. A criterion no test can check → `manual: <why>`, not dropped. Show the list before coding. |
-| 2 | Red | One test, in the repo's existing test style and location. It asserts the behaviour, not the current output. Run it. **Watch it fail for the stated reason**: a compile error or setup failure does not count as red. |
-| 3 | Green | Smallest code that passes it. No code for tests not yet written. No refactors, cleanups or renames mixed into this step. |
-| 4 | Refactor | Only on green. Run the full suite after. |
+| 1 | Test list | Read the touched code, trace the real flow first. Spec → one line per acceptance criterion. Bug → one line: the reproduction. Otherwise from the request. A criterion no test can check → `manual: <why>`, not dropped. Show the list before coding. |
+| 2 | Red | One test, in the repo's existing test style and location. It asserts behaviour through the public interface, not internals or the current output. Run it. **Watch it fail for the stated reason**: a compile error or setup failure does not count as red. |
+| 3 | Green | Smallest code that passes it. Ladder, first rung that holds: skip → reuse → stdlib/platform/installed dep → one line → minimum. Same size → correct on edge cases. Bug → fix once where all callers route through. New dependency → design change. Never cut trust-boundary validation, data-loss handling, security, accessibility, anything requested. Known-ceiling shortcut → one-line comment: ceiling, when to upgrade. No code for tests not yet written. No refactors, cleanups or renames mixed into this step. |
+| 4 | Refactor | Only on green. Repo conventions; no unrequested abstraction or scaffolding; remove introduced duplication; boring over clever; fewest files; delete what you made dead. Run the full suite after. |
 | 5 | Next | Tick the item, back to 2. New behaviour or a second bug found on the way → append to the list; don't build it silently. |
-| 6 | Done | Full suite, typecheck, lint pass: run them, don't assume. Report each list item → test name or `manual`, plus actual suite output. Design changed → update the spec in the same change (spec rule). |
+| 6 | Done | Full suite, typecheck, lint pass: run them, don't assume. Report each list item → test name or `manual`, plus actual suite output, plus `skipped: X, add when Y` lines. Design changed → update the spec in the same change (spec rule). |
 
 Bug reports add the root cause in one line. No commits: the user commits.
 
