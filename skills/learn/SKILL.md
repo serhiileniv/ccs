@@ -30,8 +30,8 @@ scaffold a new one.
 
 ## Step 3 — locate the source
 
-`$CCS_REPO`, else `~/Projects/ccs`. It must be a git checkout whose `origin` is
-`serhiileniv/ccs`. Otherwise print the proposed diff and stop.
+`$CCS_REPO`, else `~/Projects/ccsensei`. It must be a git checkout whose `origin` is
+`serhiileniv/ccsensei`. Otherwise print the proposed diff and stop.
 
 Never edit `~/.claude/plugins/cache` — it is overwritten on update.
 

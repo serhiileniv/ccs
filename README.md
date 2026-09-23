@@ -46,7 +46,7 @@ friction (or one report plus your correction), then marks those reports `learned
 ## Install
 
 ```
-/plugin marketplace add serhiileniv/ccs
+/plugin marketplace add serhiileniv/ccsensei
 /plugin install ccs@ccs
 ```
 
